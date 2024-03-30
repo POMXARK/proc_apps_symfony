@@ -12,6 +12,16 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: StmtRepository::class)]
 class Stmt
 {
+    /**
+     * Заявка не рассмотрена.
+     */
+    public const STATUS_ACTIVE = 'Active';
+
+    /**
+     * Заявка рассмотрена.
+     */
+    public const STATUS_RESOLVED = 'Resolved';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -41,6 +51,13 @@ class Stmt
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): static
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
