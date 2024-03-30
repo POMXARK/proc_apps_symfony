@@ -17,25 +17,25 @@ class Stmt
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, options:['comment' => 'Имя пользователя.'])]
+    #[ORM\Column(length: 255, options: ['comment' => 'Имя пользователя.'])]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, options:['comment' => 'Email пользователя.'])]
+    #[ORM\Column(length: 255, options: ['comment' => 'Email пользователя.'])]
     private ?string $email = null;
 
     #[ORM\Column(type: 'string', options: ['comment' => 'Статус.'])]
     private ?string $status = null;
 
-    #[ORM\Column(type: Types::TEXT, options:['comment' => 'Сообщение пользователя.'])]
+    #[ORM\Column(type: Types::TEXT, options: ['comment' => 'Сообщение пользователя.'])]
     private ?string $message = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true, options:['comment' => 'Ответ ответственного лица.'])]
+    #[ORM\Column(type: Types::TEXT, nullable: true, options: ['comment' => 'Ответ ответственного лица.'])]
     private ?string $comment = null;
 
-    #[ORM\Column(options:['comment' => 'Время создания заявки.'])]
+    #[ORM\Column(options: ['comment' => 'Время создания заявки.'])]
     private ?\DateTimeImmutable $created_at = null;
 
-    #[ORM\Column(options:['comment' => 'Время ответа на заявку.'])]
+    #[ORM\Column(options: ['comment' => 'Время ответа на заявку.'])]
     private ?\DateTimeImmutable $updated_at = null;
 
     public function getId(): ?int
