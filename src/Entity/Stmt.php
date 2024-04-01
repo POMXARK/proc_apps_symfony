@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Заявка.
  */
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: StmtRepository::class)]
 class Stmt
 {
@@ -33,7 +34,7 @@ class Stmt
     #[ORM\Column(length: 255, options: ['comment' => 'Email пользователя.'])]
     private ?string $email = null;
 
-    #[ORM\Column(type: 'string', options: ['comment' => 'Статус.'])]
+    #[ORM\Column(type: 'string', nullable: true, options: ['comment' => 'Статус.'])]
     private ?string $status = null;
 
     #[ORM\Column(type: Types::TEXT, options: ['comment' => 'Сообщение пользователя.'])]
@@ -51,13 +52,6 @@ class Stmt
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(int $id): static
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     /**
@@ -107,7 +101,7 @@ class Stmt
     /**
      * Статус.
      */
-    public function setStatus(string $status): static
+    public function setStatus(?string $status): static
     {
         $this->status = $status;
 
@@ -161,11 +155,10 @@ class Stmt
     /**
      * Время создания заявки.
      */
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    #[ORM\PrePersist]
+    public function setCreatedAt(): void
     {
-        $this->created_at = $created_at;
-
-        return $this;
+        $this->created_at = new \DateTimeImmutable();
     }
 
     /**
