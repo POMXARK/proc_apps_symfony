@@ -172,10 +172,9 @@ class Stmt
     /**
      * Время ответа на заявку.
      */
-    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
+    #[ORM\PrePersist]
+    public function setUpdatedAt(): void
     {
-        $this->updated_at = $updated_at;
-
-        return $this;
+        $this->updated_at = new \DateTimeImmutable();
     }
 }

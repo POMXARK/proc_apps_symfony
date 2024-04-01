@@ -2,21 +2,40 @@
 
 namespace App\Tests;
 
-use App\Factories\StmtFactory;
-use PHPUnit\Framework\TestCase;
+use App\Entity\Stmt;
+use App\Repository\StmtRepository;
+use App\Tests\Resource\Fixture\StmtFixture;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Liip\TestFixturesBundle\Services\DatabaseTools\ORMDatabaseTool;
 
 class StmtServiceTest extends AbstractTestCase
 {
-    /**
-     * @throws \ReflectionException
-     */
-    public function test(): void
-    {
-        $id = $data['id'] ?? $this->fake()->randomNumber();
-        $model = (new StmtFactory())->create();
-        $this->setEntityProperty($model, $id, 'id');
-        dump($model);
+    private ORMDatabaseTool $databaseTool;
+    private StmtRepository $repository;
 
-        $this->assertTrue(true);
+    public function setUp(): void
+    {
+        parent::setUp();
+        putenv('DATABASE_URL=postgres://postgres:12345@127.0.0.1:5432/postgres?sslmode=disable&charset=utf8');
+        putenv('SYMFONY_DEPRECATIONS_HELPER=disabled');
+        putenv('APP_ENV=test');
+
+        $this->repository = static::getContainer()->get(StmtRepository::class);
+        $this->databaseTool = static::getContainer()->get(DatabaseToolCollection::class)->get();
+    }
+
+    /**
+     * Успешное создание заявки.
+     */
+    public function testCreateSuccess(): void
+    {
+        $executor = $this->databaseTool->loadFixtures([StmtFixture::class]);
+        /* @var Stmt $stmt */
+        $stmt = $executor->getReferenceRepository()->getReference(StmtFixture::REFERENCE);
+
+        /* @var Stmt $existingStmt */
+        $existingStmt = $this->repository->find($stmt->getId());
+
+        $this->assertEquals($stmt->getId(), $existingStmt->getId());
     }
 }

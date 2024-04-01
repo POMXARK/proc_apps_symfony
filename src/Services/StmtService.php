@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Entity\Stmt;
 use App\Repository\StmtRepository;
+use App\Tests\StmtServiceTest;
 
 /**
  * Сервис заявок.

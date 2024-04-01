@@ -3,7 +3,6 @@
 namespace App\Factories;
 
 use App\Entity\Stmt;
-use App\Tests\EntityTools;
 use App\Traits\FakerTools;
 
 class StmtFactory
