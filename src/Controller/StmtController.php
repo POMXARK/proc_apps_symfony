@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Stmt;
@@ -60,11 +62,16 @@ class StmtController extends AbstractController
     #[Route(path: '/api/stmts/', methods: ['GET'])]
     public function index(Request $request): JsonResponse
     {
-        $response = $this->json(['data' => $this->stmtService->search(
-            $request->query->get('status'),
-            $request->query->get('created_at'),
-            $request->query->get('updated_at'),
-        )]);
+        $status = $request->query->get('status');
+        $createdAt = $request->query->get('created_at');
+        $updatedAt = $request->query->get('updated_at');
+
+        // Приведение к строке или null
+        $status = is_string($status) ? $status : null;
+        $createdAt = is_string($createdAt) ? $createdAt : null;
+        $updatedAt = is_string($updatedAt) ? $updatedAt : null;
+
+        $response = $this->json(['data' => $this->stmtService->search($status, $createdAt, $updatedAt)]);
         $this->manager->flush();
 
         return $response;

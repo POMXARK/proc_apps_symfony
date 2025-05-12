@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\StmtRepository;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -44,10 +47,10 @@ class Stmt
     private ?string $comment = null;
 
     #[ORM\Column(options: ['comment' => 'Время создания заявки.'])]
-    private ?\DateTimeImmutable $created_at = null;
+    private ?DateTimeImmutable $created_at = null;
 
     #[ORM\Column(options: ['comment' => 'Время ответа на заявку.'])]
-    private ?\DateTimeImmutable $updated_at = null;
+    private ?DateTimeImmutable $updated_at = null;
 
     public function getId(): ?int
     {
@@ -147,7 +150,7 @@ class Stmt
     /**
      * Время создания заявки.
      */
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->created_at;
     }
@@ -158,13 +161,13 @@ class Stmt
     #[ORM\PrePersist]
     public function setCreatedAt(): void
     {
-        $this->created_at = new \DateTimeImmutable();
+        $this->created_at = new DateTimeImmutable();
     }
 
     /**
      * Время ответа на заявку.
      */
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updated_at;
     }
@@ -175,6 +178,6 @@ class Stmt
     #[ORM\PrePersist]
     public function setUpdatedAt(): void
     {
-        $this->updated_at = new \DateTimeImmutable();
+        $this->updated_at = new DateTimeImmutable();
     }
 }

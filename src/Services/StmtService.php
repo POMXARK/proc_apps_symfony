@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Entity\Stmt;
@@ -19,14 +21,18 @@ readonly class StmtService
 
     /**
      * Все заявки с фильтрацией по статусу и дате.
+     *
+     * @return Stmt[]|null
      */
-    public function search(?string $status, ?string $createdAt, ?string $updatedAt)
+    public function search(?string $status, ?string $createdAt, ?string $updatedAt): ?array
     {
         return $this->stmtRepository->search($status, $createdAt, $updatedAt);
     }
 
     /**
      * Создание заявки.
+     *
+     * @param array<string, mixed> $data
      */
     public function create(array $data): Stmt
     {
@@ -35,6 +41,8 @@ readonly class StmtService
 
     /**
      * Ответить на заявку.
+     *
+     * @param array<string, mixed> $data
      */
     public function update(Stmt $stmt, array $data): Stmt
     {

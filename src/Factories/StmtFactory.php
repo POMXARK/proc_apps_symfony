@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Factories;
 
 use App\Entity\Stmt;
@@ -10,16 +12,17 @@ class StmtFactory
     use FakerTools;
 
     /**
-     * @throws \ReflectionException
+     * @param array<string, mixed>|null $data
      */
     public function create(?array $data = null): Stmt
     {
-        $stmt = (new Stmt())
-           ->setName($data['name'] ?? $this->fake()->name)
-           ->setEmail($data['email'] ?? $this->fake()->unique()->safeEmail)
-           ->setMessage($data['message'] ?? $this->fake()->realText())
-        ;
+        $name = isset($data['name']) && is_string($data['name']) ? $data['name'] : $this->fake()->name;
+        $email = isset($data['email']) && is_string($data['email']) ? $data['email'] : $this->fake()->unique()->safeEmail;
+        $message = isset($data['message']) && is_string($data['message']) ? $data['message'] : $this->fake()->realText();
 
-        return $stmt;
+        return (new Stmt())
+            ->setName($name)
+            ->setEmail($email)
+            ->setMessage($message);
     }
 }
